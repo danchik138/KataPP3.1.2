@@ -15,20 +15,18 @@ public class UserController {
 
     @GetMapping
     public String showAllUsers(Model model) {
-        System.out.println(userService.getAllUsers());
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("user", new User());
         return "users/allUsers";
     }
 
-    @PostMapping
+    @PostMapping()
     public String addNewUser(@ModelAttribute("user") User user) {
-        System.out.println("post method");
         userService.addUser(user);
         return "redirect:/users";
     }
 
-    @PatchMapping
+    @RequestMapping(value = "", method = RequestMethod.PATCH)
     public String updateUser(@ModelAttribute("user") User user) {
         User temp = userService.getUserById(user.getId());
         if (temp == null) {
@@ -37,8 +35,7 @@ public class UserController {
         userService.updateUser(user);
         return "redirect:/users";
     }
-
-    @DeleteMapping
+    @RequestMapping(value = "", method = RequestMethod.DELETE)
     public String deleteAllUsers() {
         userService.deleteAllUsers();
         return "redirect:/users";
