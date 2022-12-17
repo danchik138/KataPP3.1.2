@@ -1,0 +1,115 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <div>
+        <table>
+            <caption>Users</caption>
+            <colgroup>
+                <col span="6" style="background:Khaki">
+            </colgroup>
+            <tr>
+                <th style="outline: thin solid">Id</th>
+                <th style="outline: thin solid">Name</th>
+                <th style="outline: thin solid">Surname</th>
+                <th style="outline: thin solid">Email</th>
+                <th style="outline: thin solid">Gender</th>
+                <th style="outline: thin solid">Age</th>
+                <th style="outline: thin solid">Magic</th>
+            </tr>
+            <th:block th:each="user : ${users}">
+                <tr>
+                    <td><a th:href="@{users/{id} (id=${user.getId()})}" th:text="${user.getId()}"></a></td>
+                    <td><a th:href="@{users/{id} (id=${user.getId()})}" th:text="${user.getName()}"></a></td>
+                    <td><a th:href="@{users/{id} (id=${user.getId()})}" th:text="${user.getSurname()}"></a></td>
+                    <td><a th:href="@{users/{id} (id=${user.getId()})}" th:text="${user.getEmail()}"></a></td>
+                    <td><a th:href="@{users/{id} (id=${user.getId()})}" th:text="${user.getGender()}"></a></td>
+                    <td><a th:href="@{users/{id} (id=${user.getId()})}" th:text="${user.getAge()}"></a></td>
+                    <td>
+                        <form th:method="DELETE" th:action="@{users/{id} (id=${user.getId()})}">
+                            <button type="submit" style="background-color: cornflowerblue">Try me</button>
+                        </form>
+                    </td>
+                </tr>
+            </th:block>
+        </table>
+    </div>
+    <br>
+    <div>
+        <form th:method="RequestMethod.DELETE" th:action="@{/users}" th:object="${user}">
+            <fieldset>
+                <legend>Change user</legend>
+                <p>
+                    <label for="createName">Name</label>
+                    <input name="name" type=text th:field="*{name}" id="createName"/>
+                </p>
+                <p>
+                    <label for="createSurname">Surname</label>
+                    <input name="surname" type="text" th:field="*{surname}" id="createSurname">
+                </p>
+                <p>
+                    <label for="createEmail">Email</label>
+                    <input name="email" type="text" th:field="*{email}" id="createEmail">
+                </p>
+                <p>
+                    <label for="createGender">Gender</label>
+                    <input name="gender" type="text" th:field="*{gender}" id="createGender">
+                </p>
+                <p>
+                    <label for="createAge">Age</label>
+                    <input name="age" type="number" th:field="*{age}" id="createAge">
+                </p>
+                <p>
+                    <input type="submit" value="Add user">
+                </p>
+            </fieldset>
+        </form>
+    </div>
+    <div>
+        <form th:method="PATCH" th:action="@{/users}" th:object="${user}">
+            <fieldset>
+                <legend>Change user</legend>
+                <p>
+                    <label for="updateId">Id</label>
+                    <input name="name" type=text th:field="*{id}" id="updateId"/>
+                </p>
+                <p>
+                    <label for="updateName">Name</label>
+                    <input name="surname" type="text" th:field="*{name}" id="updateName"/>
+                </p>
+                <p>
+                    <label for="updateSurname">Surname</label>
+                    <input name="surname" type="text" th:field="*{surname}"  id="updateSurname">
+                </p>
+                <p>
+                    <label for="updateEmail">Email</label>
+                    <input name="email" type="text" th:field="*{email}" id="updateEmail">
+                </p>
+                <p>
+                    <label for="updateGender">Gender</label>
+                    <input name="gender" type="text" th:field="*{gender}" id="updateGender">
+                </p>
+                <p>
+                    <label for="updateAge">Age</label>
+                    <input name="age" type="number" th:field="*{age}" id="updateAge">
+                </p>
+                <p>
+                    <input type="submit" value="Update user">
+                </p>
+            </fieldset>
+        </form>
+    </div>
+    <br>
+    <div>
+        <form th:method="delete" th:action="@{/users}">
+            <fieldset>
+                <legend>Real magic</legend>
+                <button type="submit" style="background-color: red">Red button</button>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
