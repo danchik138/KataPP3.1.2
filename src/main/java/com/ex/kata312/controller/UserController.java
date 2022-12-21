@@ -10,33 +10,33 @@ import com.ex.kata312.service.UserService;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-    UserService userService;
+    private UserService userService;
 
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     public String showAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("user", new User());
         return "users/allUsers";
     }
 
-    @GetMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String showUser(@PathVariable("id")int id, Model model){
         model.addAttribute("user", userService.getUserById(id));
         return "users/editUser";
     }
 
-    @PostMapping
+    @RequestMapping(method = RequestMethod.POST)
     public String addNewUser(@ModelAttribute("user") User user) {
         userService.addUser(user);
         return "redirect:/users";
     }
 
-    @PatchMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
     public String updateUser(@ModelAttribute("user") User user) {
         User temp = userService.getUserById(user.getId());
         if (temp == null) {
@@ -46,13 +46,13 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @DeleteMapping
+    @RequestMapping(method = RequestMethod.DELETE)
     public String deleteAllUsers() {
         userService.deleteAllUsers();
         return "redirect:/users";
     }
 
-    @DeleteMapping("/{id}")
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public String deleteUserById(@PathVariable("id")int id) {
         userService.deleteUserById(id);
         return "redirect:/users";
