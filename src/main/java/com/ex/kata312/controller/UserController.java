@@ -10,8 +10,12 @@ import com.ex.kata312.service.UserService;
 @Controller
 @RequestMapping("/users")
 public class UserController {
-    @Autowired
     UserService userService;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public String showAllUsers(Model model) {
@@ -20,41 +24,36 @@ public class UserController {
         return "users/allUsers";
     }
 
-    @PostMapping()
+    @GetMapping("/{id}")
+    public String showUser(@PathVariable("id")int id, Model model){
+        model.addAttribute("user", userService.getUserById(id));
+        return "users/editUser";
+    }
+
+    @PostMapping
     public String addNewUser(@ModelAttribute("user") User user) {
         userService.addUser(user);
         return "redirect:/users";
     }
 
-    @RequestMapping(value = "", method = RequestMethod.PATCH)
+    @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") User user) {
         User temp = userService.getUserById(user.getId());
         if (temp == null) {
-            return "redirect:/users/noSuchUserFound";
+            return "redirect:/users";
         }
         userService.updateUser(user);
         return "redirect:/users";
     }
-    @RequestMapping(value = "", method = RequestMethod.DELETE)
+
+    @DeleteMapping
     public String deleteAllUsers() {
         userService.deleteAllUsers();
         return "redirect:/users";
     }
 
-    @GetMapping("/noSuchUserFound")
-    public String noSuchUserFound(){
-        return "users/noSuchUserFound";
-    }
-
-    @GetMapping("/{id}")
-    public String deleteAllUsers(@PathVariable("id")int id, Model model){
-        model.addAttribute("user", userService.getUserById(id));
-        return "users/editUser";
-    }
-
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public String deleteAllUsers(@PathVariable("id")int id) {
-        System.out.println("delete by id");
+    @DeleteMapping("/{id}")
+    public String deleteUserById(@PathVariable("id")int id) {
         userService.deleteUserById(id);
         return "redirect:/users";
     }
