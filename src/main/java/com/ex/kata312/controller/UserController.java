@@ -17,26 +17,26 @@ public class UserController {
         this.userService = userService;
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @GetMapping
     public String showAllUsers(Model model) {
         model.addAttribute("users", userService.getAllUsers());
         model.addAttribute("user", new User());
         return "users/allUsers";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     public String showUser(@PathVariable("id")int id, Model model){
         model.addAttribute("user", userService.getUserById(id));
         return "users/editUser";
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public String addNewUser(@ModelAttribute("user") User user) {
         userService.addUser(user);
         return "redirect:/users";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
+    @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") User user) {
         User temp = userService.getUserById(user.getId());
         if (temp == null) {
@@ -46,13 +46,13 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @RequestMapping(method = RequestMethod.DELETE)
+    @DeleteMapping
     public String deleteAllUsers() {
         userService.deleteAllUsers();
         return "redirect:/users";
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping("/{id}")
     public String deleteUserById(@PathVariable("id")int id) {
         userService.deleteUserById(id);
         return "redirect:/users";
